@@ -9,6 +9,12 @@ import routes from './routes';
 let app = express();
 app.server = http.createServer(app);
 
+//middlware
+// parse application-json
+app.use(bodyParser.json({
+  limit: config.bodyLimit
+}));
+
 // API routes
 app.use('/v1',routes);
 
