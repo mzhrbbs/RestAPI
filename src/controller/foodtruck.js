@@ -10,7 +10,7 @@ export default ({config,db}) => {
   //CRUD - Create , Read , Update , Delete
 
   // '/v1/foodtruck/add'-- Create
-  api.post('/add', (req,res) => {
+  api.post('/add', authenticate, (req,res) => {
     let newFoodTruck = new FoodTruck();
     newFoodTruck.name = req.body.name;
     newFoodTruck.foodtype = req.body.foodtype;
@@ -46,7 +46,7 @@ export default ({config,db}) => {
   });
 
   // 'v1/foodtruck/:id' -- Update
-  api.put('/:id', (req, res) => {
+  api.put('/:id', authenticate, (req, res) => {
     FoodTruck.findById(req.params.id, (err, foodtruck) => {
       if (err) {
         res.send(err);
@@ -65,7 +65,7 @@ export default ({config,db}) => {
   });
 
   // 'v1/foodtruck/:id ' -- Delete
-  api.delete('/:id' , (req,res) => {
+  api.delete('/:id' , authenticate, (req,res) => {
     FoodTruck.remove({
       _id: req.params.id
     },(err,foodtruck) => {
