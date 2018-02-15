@@ -18,6 +18,8 @@ var _review = require('../models/review');
 
 var _review2 = _interopRequireDefault(_review);
 
+var _authMiddleware = require('../middleware/authMiddleware');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (_ref) {
@@ -71,11 +73,14 @@ exports.default = function (_ref) {
         res.send(err);
       }
       foodtruck.name = req.body.name;
+      foodtruck.foodtype = req.body.foodtype;
+      foodtruck.avgcost = req.body.avgcost;
+      foodtruck.geometry.coordinates = req.body.geometry.coordinates;
       foodtruck.save(function (err) {
         if (err) {
           res.send(err);
         }
-        res.json({ message: "FoodTruck info udpated !" });
+        res.json({ message: 'Food Truck info updated' });
       });
     });
   });
@@ -88,31 +93,50 @@ exports.default = function (_ref) {
       if (err) {
         res.send(err);
       }
-      res.json({ message: "FoodTruck deleted successfully !" });
+      _review2.default.remove({ foodtruck: req.params.id }, function (err, review) {
+        if (err) {
+          res.send(err);
+        }
+
+        res.json({ message: "FoodTruck and its reviews deleted successfully !" });
+      });
     });
   });
 
   // Add review for specific food truck id
   // 'v1/foodtruck/reviews/add/:id'
-  api.post('reviews/add/:id', function (req, res) {
+  api.post('/reviews/add/:id', function (req, res) {
     _foodtruck2.default.findById(req.params.id, function (err, foodtruck) {
       if (err) {
         res.send(err);
       }
       var newReview = new _review2.default();
-      newReview.title = req.body.title, newReview.text = req.body.text, newReview.foodtruck = foodtruck._id, newReview.save(function (err, review) {
+
+      newReview.title = req.body.title;
+      newReview.text = req.body.text;
+      newReview.foodtruck = foodtruck._id;
+      newReview.save(function (err, review) {
         if (err) {
           res.send(err);
         }
         foodtruck.reviews.push(newReview);
         foodtruck.save(function (err) {
           if (err) {
-            console.log("here is the error");
             res.send(err);
           }
-          res.json({ message: "FoodTruck review saved !" });
+          res.json({ message: 'Food truck review saved' });
         });
       });
+    });
+  });
+  //Get reviews for a particular foodtruck id
+  //'/v1/foodtruck/reviews/:id'
+  api.get('/reviews/:id', function (req, res) {
+    _review2.default.find({ foodtruck: req.params.id }, function (err, reviews) {
+      if (err) {
+        res.send(err);
+      }
+      res.json(reviews);
     });
   });
 

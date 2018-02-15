@@ -23,7 +23,8 @@ var ReviewSchema = new Schema({
     ref: 'FoodTruck',
     required: true
   }
-});
+
+}, { usePushEach: true });
 
 module.exports = _mongoose2.default.model('Review', ReviewSchema);
 //# sourceMappingURL=review.js.map

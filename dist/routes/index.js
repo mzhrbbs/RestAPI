@@ -24,6 +24,10 @@ var _foodtruck = require('../controller/foodtruck');
 
 var _foodtruck2 = _interopRequireDefault(_foodtruck);
 
+var _account = require('../controller/account');
+
+var _account2 = _interopRequireDefault(_account);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express2.default)();
@@ -36,6 +40,7 @@ var router = (0, _express2.default)();
 
   //api route v1
   router.use('/foodtruck', (0, _foodtruck2.default)({ config: _config2.default, db: db }));
+  router.use('/account', (0, _account2.default)({ config: _config2.default, db: db }));
 });
 
 exports.default = router;

@@ -27,7 +27,7 @@ var FoodTruckSchema = new Schema({
     coordinates: [Number]
   },
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
-});
+}, { usePushEach: true });
 
 module.exports = _mongoose2.default.model('FoodTruck', FoodTruckSchema);
 //# sourceMappingURL=foodtruck.js.map
