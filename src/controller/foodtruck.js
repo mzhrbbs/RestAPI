@@ -55,6 +55,7 @@ export default ({config,db}) => {
       foodtruck.foodtype = req.body.foodtype;
       foodtruck.avgcost = req.body.avgcost;
       foodtruck.geometry.coordinates = req.body.geometry.coordinates;
+      
       foodtruck.save(function(err) {
         if (err) {
           res.send(err);
